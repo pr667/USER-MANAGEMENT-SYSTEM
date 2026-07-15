@@ -7,6 +7,7 @@ import useUsers from "./hooks/useUsers";
 import useDebounce from "./hooks/useDebounce";
 
 import UserTable from "./components/UserTable/UserTable";
+import UserCardList from "./components/UserTable/UserCardList";
 import UserForm from "./components/UserForm/UserForm";
 import Pagination from "./components/Pagination/Pagination";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -146,14 +147,24 @@ function App() {
           <Loader />
         ) : (
           <>
-            <UserTable
-              users={paginatedUsers}
-              sortField={sortField}
-              sortDirection={sortDirection}
-              onSort={handleSort}
-              onEdit={openEditModal}
-              onDelete={openDeleteModal}
-            />
+            {/* Desktop: table | Mobile: cards */}
+<div className="hidden sm:block">
+  <UserTable
+    users={paginatedUsers}
+    sortField={sortField}
+    sortDirection={sortDirection}
+    onSort={handleSort}
+    onEdit={openEditModal}
+    onDelete={openDeleteModal}
+  />
+</div>
+<div className="sm:hidden">
+  <UserCardList
+    users={paginatedUsers}
+    onEdit={openEditModal}
+    onDelete={openDeleteModal}
+  />
+</div>
             {processedUsers.length > 0 && (
               <Pagination
                 currentPage={currentPage}
